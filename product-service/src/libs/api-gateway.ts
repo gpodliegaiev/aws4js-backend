@@ -1,17 +1,18 @@
 import type { APIGatewayProxyEvent, APIGatewayProxyResult, Handler } from 'aws-lambda'
 import { ResponseMessages, StatusCodes } from 'src/constants'
+import { Product } from 'src/types'
 
 type ValidatedAPIGatewayProxyEvent<B> = Omit<APIGatewayProxyEvent, 'body'> & { body: B }
 export type ValidatedEventAPIGatewayProxyEvent<B> = Handler<ValidatedAPIGatewayProxyEvent<B>, APIGatewayProxyResult>
 
-type ResponseItem = Record<string, unknown>
-type Response = ResponseItem | ResponseItem[] | undefined
+type ResponseData = Product | Product[] | undefined
+type BodyData = ResponseData | { message: string }
 
-export const handleResponse = (response: Response) => {
+export const handleResponse = (responseData: ResponseData) => {
   let statusCode = StatusCodes.OK
-  let bodyData = response
+  let bodyData: BodyData = responseData
 
-  if (!response) {
+  if (!responseData) {
     statusCode = StatusCodes.NOT_FOUND
     bodyData = {
       message: ResponseMessages[statusCode],
