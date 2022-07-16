@@ -1,5 +1,5 @@
 import type { APIGatewayProxyEvent, APIGatewayProxyResult, Handler } from 'aws-lambda'
-import { StatusCodes, getReasonPhrase } from 'http-status-codes'
+import { ResponseMessages, StatusCodes } from 'src/constants'
 
 type ValidatedAPIGatewayProxyEvent<B> = Omit<APIGatewayProxyEvent, 'body'> & { body: B }
 export type ValidatedEventAPIGatewayProxyEvent<B> = Handler<ValidatedAPIGatewayProxyEvent<B>, APIGatewayProxyResult>
@@ -14,7 +14,7 @@ export const handleResponse = (response: Response) => {
   if (!response) {
     statusCode = StatusCodes.NOT_FOUND
     bodyData = {
-      message: getReasonPhrase(statusCode),
+      message: ResponseMessages[statusCode],
     }
   }
 
