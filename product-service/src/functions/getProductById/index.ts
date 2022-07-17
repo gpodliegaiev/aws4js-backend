@@ -7,6 +7,14 @@ export default {
       http: {
         method: 'get',
         path: 'products/{productId}',
+        responseData: {
+          200: {
+            bodyType: 'Product',
+          },
+          404: {
+            bodyType: 'ErrorResponse',
+          },
+        },
       },
     },
   ],

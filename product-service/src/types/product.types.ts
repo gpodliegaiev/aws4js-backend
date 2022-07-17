@@ -6,3 +6,5 @@ export interface Product {
   title: string
   imageUrl: string
 }
+
+export type ProductList = Product[]

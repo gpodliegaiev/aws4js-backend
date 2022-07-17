@@ -6,7 +6,7 @@ import getProductById from '@functions/getProductById'
 const serverlessConfiguration: AWS = {
   service: 'product-service',
   frameworkVersion: '3',
-  plugins: ['serverless-esbuild'],
+  plugins: ['serverless-auto-swagger', 'serverless-esbuild'],
   provider: {
     name: 'aws',
     runtime: 'nodejs14.x',
@@ -33,6 +33,10 @@ const serverlessConfiguration: AWS = {
       define: { 'require.resolve': undefined },
       platform: 'node',
       concurrency: 10,
+    },
+    autoswagger: {
+      generateSwaggerOnDeploy: false,
+      typefiles: ['./src/types/api.types.ts', './src/types/product.types.ts'],
     },
   },
 }

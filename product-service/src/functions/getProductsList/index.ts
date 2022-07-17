@@ -7,6 +7,11 @@ export default {
       http: {
         method: 'get',
         path: 'products',
+        responseData: {
+          200: {
+            bodyType: 'ProductList',
+          },
+        },
       },
     },
   ],
