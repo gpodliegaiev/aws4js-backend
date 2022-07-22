@@ -6,7 +6,8 @@ import getProductById from '@functions/getProductById'
 const serverlessConfiguration: AWS = {
   service: 'product-service',
   frameworkVersion: '3',
-  plugins: ['serverless-auto-swagger', 'serverless-esbuild'],
+  plugins: ['serverless-auto-swagger', 'serverless-offline', 'serverless-esbuild'],
+  useDotenv: true,
   provider: {
     name: 'aws',
     runtime: 'nodejs14.x',
@@ -19,6 +20,11 @@ const serverlessConfiguration: AWS = {
     environment: {
       AWS_NODEJS_CONNECTION_REUSE_ENABLED: '1',
       NODE_OPTIONS: '--enable-source-maps --stack-trace-limit=1000',
+      PG_HOST: '${env:PGHOST}',
+      PG_USER: '${env:PGUSER}',
+      PG_DATABASE: '${env:PGDATABASE}',
+      PG_PASSWORD: '${env:PGPASSWORD}',
+      PG_PORT: '${env:PGPORT}',
     },
   },
   functions: { getProductsList, getProductById },
@@ -28,7 +34,7 @@ const serverlessConfiguration: AWS = {
       bundle: true,
       minify: false,
       sourcemap: true,
-      exclude: ['aws-sdk'],
+      exclude: ['aws-sdk', 'pg-native'],
       target: 'node14',
       define: { 'require.resolve': undefined },
       platform: 'node',
@@ -37,6 +43,9 @@ const serverlessConfiguration: AWS = {
     autoswagger: {
       generateSwaggerOnDeploy: false,
       typefiles: ['./src/types/api.types.ts', './src/types/product.types.ts'],
+    },
+    'serverless-offline': {
+      httpPort: 4000,
     },
   },
 }
