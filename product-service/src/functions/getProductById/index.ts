@@ -14,6 +14,9 @@ export default {
           404: {
             bodyType: 'ErrorResponse',
           },
+          500: {
+            bodyType: 'ErrorResponse',
+          },
         },
       },
     },

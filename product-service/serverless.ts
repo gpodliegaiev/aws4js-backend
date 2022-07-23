@@ -41,7 +41,9 @@ const serverlessConfiguration: AWS = {
       concurrency: 10,
     },
     autoswagger: {
-      generateSwaggerOnDeploy: false,
+      apiType: 'http',
+      basePath: '/${self:provider.stage}',
+      generateSwaggerOnDeploy: true,
       typefiles: ['./src/types/api.types.ts', './src/types/product.types.ts'],
     },
     'serverless-offline': {

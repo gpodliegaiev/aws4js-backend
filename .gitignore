@@ -31,3 +31,5 @@ jspm_packages
 
 .esbuild
 .env
+
+**.py

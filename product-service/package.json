@@ -5,6 +5,9 @@
   "main": "serverless.ts",
   "scripts": {
     "deploy": "sls deploy",
+    "swagger:generate": "sls generate-swagger",
+    "offline": "sls offline",
+    "offline:start": "yarn swagger:generate && sls offline start",
     "print": "sls print",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
