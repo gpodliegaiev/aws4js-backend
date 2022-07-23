@@ -17,3 +17,9 @@ https://github.com/gpodliegaiev/shop-react-redux-cloudfront/pull/2
 
 
 ## Task #4 (DB)
+
+### - Create Product API
+POST: https://4vq1uhh29b.execute-api.eu-west-1.amazonaws.com/dev/products
+
+### - FE PR
+https://github.com/gpodliegaiev/shop-react-redux-cloudfront/pull/3
