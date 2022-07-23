@@ -2,6 +2,7 @@ import type { AWS } from '@serverless/typescript'
 
 import getProductsList from '@functions/getProductsList'
 import getProductById from '@functions/getProductById'
+import createProduct from '@functions/createProduct'
 
 const serverlessConfiguration: AWS = {
   service: 'product-service',
@@ -27,7 +28,7 @@ const serverlessConfiguration: AWS = {
       PG_PORT: '${env:PGPORT}',
     },
   },
-  functions: { getProductsList, getProductById },
+  functions: { getProductsList, getProductById, createProduct },
   package: { individually: true },
   custom: {
     esbuild: {
@@ -44,7 +45,7 @@ const serverlessConfiguration: AWS = {
       apiType: 'http',
       basePath: '/${self:provider.stage}',
       generateSwaggerOnDeploy: true,
-      typefiles: ['./src/types/api.types.ts', './src/types/product.types.ts'],
+      typefiles: ['./src/types/api.types.ts', './src/types/product.types.ts', './src/types/common.types.ts'],
     },
     'serverless-offline': {
       httpPort: 4000,

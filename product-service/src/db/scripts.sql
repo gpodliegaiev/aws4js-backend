@@ -15,6 +15,8 @@
 
 --alter table stocks alter column product_id set not null;
 
+--alter table stocks alter column "count" set default 0;
+
 
 -- WITH p as (insert into products (description, price, title) values ('Short Product Description1', 2.4, 'ProductOne') RETURNING id)
 --    insert into stocks (product_id, "count") SELECT id, 4 FROM p; 

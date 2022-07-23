@@ -32,6 +32,48 @@
             }
           }
         }
+      },
+      "post": {
+        "summary": "createProduct",
+        "description": "",
+        "operationId": "createProduct.post.products",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Body required in the request",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/CreateProductData"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "200 response",
+            "schema": {
+              "$ref": "#/definitions/ID"
+            }
+          },
+          "400": {
+            "description": "400 response",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          },
+          "500": {
+            "description": "500 response",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          }
+        }
       }
     },
     "/products/{productId}": {
@@ -77,6 +119,46 @@
     }
   },
   "definitions": {
+    "ResponseData": {
+      "anyOf": [
+        {
+          "$ref": "#/definitions/Product",
+          "title": "ResponseData"
+        },
+        {
+          "items": {
+            "$ref": "#/definitions/Product",
+            "title": "ResponseData.[]"
+          },
+          "title": "ResponseData.[]",
+          "type": "array"
+        }
+      ],
+      "title": "ResponseData"
+    },
+    "BodyData": {
+      "anyOf": [
+        {
+          "$ref": "#/definitions/ResponseData",
+          "title": "BodyData"
+        },
+        {
+          "properties": {
+            "message": {
+              "title": "BodyData.message",
+              "type": "string"
+            }
+          },
+          "required": [
+            "message"
+          ],
+          "additionalProperties": false,
+          "title": "BodyData",
+          "type": "object"
+        }
+      ],
+      "title": "BodyData"
+    },
     "ErrorResponse": {
       "properties": {
         "message": {
@@ -91,40 +173,41 @@
       "title": "ErrorResponse",
       "type": "object"
     },
-    "Product": {
+    "CreateProductData": {
       "properties": {
-        "count": {
-          "title": "Product.count",
-          "type": "number"
-        },
-        "description": {
-          "title": "Product.description",
+        "title": {
+          "title": "CreateProductData.title",
           "type": "string"
         },
-        "id": {
-          "title": "Product.id",
+        "description": {
+          "title": "CreateProductData.description",
           "type": "string"
         },
         "price": {
-          "title": "Product.price",
+          "title": "CreateProductData.price",
           "type": "number"
         },
-        "title": {
-          "title": "Product.title",
-          "type": "string"
-        },
-        "imageUrl": {
-          "title": "Product.imageUrl",
+        "count": {
+          "title": "CreateProductData.count",
+          "type": "number"
+        }
+      },
+      "required": [
+        "title"
+      ],
+      "additionalProperties": false,
+      "title": "CreateProductData",
+      "type": "object"
+    },
+    "Product": {
+      "properties": {
+        "id": {
+          "title": "Product.id",
           "type": "string"
         }
       },
       "required": [
-        "count",
-        "description",
-        "id",
-        "price",
-        "title",
-        "imageUrl"
+        "id"
       ],
       "additionalProperties": false,
       "title": "Product",
@@ -137,6 +220,20 @@
       },
       "title": "ProductList.[]",
       "type": "array"
+    },
+    "ID": {
+      "properties": {
+        "id": {
+          "title": "ID.id",
+          "type": "string"
+        }
+      },
+      "required": [
+        "id"
+      ],
+      "additionalProperties": false,
+      "title": "ID",
+      "type": "object"
     }
   },
   "securityDefinitions": {},

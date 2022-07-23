@@ -14,3 +14,8 @@ export const defaultHeaders = {
   'Access-Control-Allow-Origin': '*',
   'Access-Control-Allow-Methods': 'OPTIONS,POST,GET',
 }
+
+export enum DBTables {
+  PRODUCTS = 'products',
+  STOCKS = 'stocks',
+}

@@ -2,7 +2,7 @@ import { handleResponse } from '@libs/api-gateway'
 import { middyfy } from '@libs/lambda'
 import { StatusCodes } from 'src/constants'
 import { productService } from 'src/services/product.service'
-import type { ValidatedEventAPIGatewayProxyEvent } from '@libs/api-gateway'
+import type { ValidatedEventAPIGatewayProxyEvent } from 'src/types'
 
 const getProductsList: ValidatedEventAPIGatewayProxyEvent<null> = async _event => {
   try {

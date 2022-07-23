@@ -1,10 +1,16 @@
-export interface Product {
-  count: number
-  description: string
-  id: string
-  price: number
+export interface CreateProductData {
   title: string
-  imageUrl: string
+  description?: string
+  price?: number
+  count?: number
+}
+
+export interface Product {
+  id: string
+  title: string
+  count: number
+  description?: string
+  price?: number
 }
 
 export type ProductList = Product[]
