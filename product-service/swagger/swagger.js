@@ -204,10 +204,28 @@
         "id": {
           "title": "Product.id",
           "type": "string"
+        },
+        "title": {
+          "title": "Product.title",
+          "type": "string"
+        },
+        "count": {
+          "title": "Product.count",
+          "type": "number"
+        },
+        "description": {
+          "title": "Product.description",
+          "type": "string"
+        },
+        "price": {
+          "title": "Product.price",
+          "type": "number"
         }
       },
       "required": [
-        "id"
+        "id",
+        "title",
+        "count"
       ],
       "additionalProperties": false,
       "title": "Product",
