@@ -1,7 +1,7 @@
 import { handlerPath } from '@libs/handler-resolver'
 import { AWSFunction } from 'src/types'
 
-const lambdaConfig: AWSFunction = {
+const functionConfig: AWSFunction = {
   handler: `${handlerPath(__dirname)}/handler.main`,
   events: [
     {
@@ -11,7 +11,7 @@ const lambdaConfig: AWSFunction = {
         request: {
           parameters: {
             querystrings: {
-              name: true,
+              fileName: true,
             },
           },
         },
@@ -20,4 +20,4 @@ const lambdaConfig: AWSFunction = {
   ],
 }
 
-export default lambdaConfig
+export default functionConfig

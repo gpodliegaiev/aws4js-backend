@@ -2,6 +2,8 @@ import type { AWS } from '@serverless/typescript'
 
 import importProductsFile from '@functions/importProductsFile'
 
+import { region, bucketName } from './serverless.constants'
+
 const serverlessConfiguration: AWS = {
   service: 'import-service',
   frameworkVersion: '3',
@@ -10,7 +12,7 @@ const serverlessConfiguration: AWS = {
   provider: {
     name: 'aws',
     runtime: 'nodejs14.x',
-    region: 'eu-west-1',
+    region,
     stage: 'dev',
     apiGateway: {
       minimumCompressionSize: 1024,
@@ -19,6 +21,22 @@ const serverlessConfiguration: AWS = {
     environment: {
       AWS_NODEJS_CONNECTION_REUSE_ENABLED: '1',
       NODE_OPTIONS: '--enable-source-maps --stack-trace-limit=1000',
+    },
+    iam: {
+      role: {
+        statements: [
+          {
+            Effect: 'Allow',
+            Action: 's3:ListBucket',
+            Resource: `arn:aws:s3:::${bucketName}`,
+          },
+          {
+            Effect: 'Allow',
+            Action: 's3:*',
+            Resource: `arn:aws:s3:::${bucketName}/*`,
+          },
+        ],
+      },
     },
   },
   functions: { importProductsFile },
