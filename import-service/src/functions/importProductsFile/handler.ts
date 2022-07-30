@@ -3,7 +3,7 @@ import { getSignedUrl } from '@aws-sdk/s3-request-presigner'
 import { handleResponse } from '@libs/api-gateway'
 import { middyfy } from '@libs/lambda'
 import { bucketName } from 'serverless.constants'
-import { MimeTypes, signedUrlExpirationTime, StatusCodes } from 'src/constants'
+import { MimeTypes, S3Folders, signedUrlExpirationTime, StatusCodes } from 'src/constants'
 import { s3Client } from 'src/s3Client'
 import type { ValidatedEventAPIGatewayProxyEvent } from 'src/types'
 
@@ -19,7 +19,7 @@ const importProductsFile: ValidatedEventAPIGatewayProxyEvent<null> = async event
 
     const bucketParams: PutObjectCommandInput = {
       Bucket: bucketName,
-      Key: `uploaded/${fileName}`,
+      Key: `${S3Folders.UPLOADED}/${fileName}`,
       ContentType: MimeTypes.CSV,
     }
 
