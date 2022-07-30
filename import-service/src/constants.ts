@@ -1,11 +1,16 @@
 export enum StatusCodes {
   OK = 200,
+  ACCEPTED = 202,
+  BAD_REQUEST = 400,
   NOT_FOUND = 404,
   SERVER_ERROR = 500,
 }
 
 export const ResponseMessages = {
-  [StatusCodes.NOT_FOUND]: 'Product not found',
+  [StatusCodes.OK]: 'OK',
+  [StatusCodes.ACCEPTED]: 'Accepted',
+  [StatusCodes.BAD_REQUEST]: 'Bad Request',
+  [StatusCodes.NOT_FOUND]: 'Not found',
   [StatusCodes.SERVER_ERROR]: 'Internal Server Error',
 }
 
@@ -15,7 +20,13 @@ export const defaultHeaders = {
   'Access-Control-Allow-Methods': 'OPTIONS,POST,GET',
 }
 
-export enum DBTables {
-  PRODUCTS = 'products',
-  STOCKS = 'stocks',
+export const signedUrlExpirationTime = 3600
+
+export enum MimeTypes {
+  CSV = 'text/csv',
+}
+
+export enum S3Folders {
+  UPLOADED = 'uploaded',
+  PARSED = 'parsed',
 }
