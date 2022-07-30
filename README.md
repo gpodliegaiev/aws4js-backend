@@ -23,3 +23,13 @@ POST: https://4vq1uhh29b.execute-api.eu-west-1.amazonaws.com/dev/products
 
 ### - FE PR
 https://github.com/gpodliegaiev/shop-react-redux-cloudfront/pull/3
+
+
+
+## Task #5 (S3)
+
+### - Get Signed URL
+GET: https://sdwoei8t06.execute-api.eu-west-1.amazonaws.com/dev/import?fileName=test.csv
+
+### - FE PR
+https://github.com/gpodliegaiev/shop-react-redux-cloudfront/pull/4
