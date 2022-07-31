@@ -11,6 +11,9 @@ export default {
           200: {
             bodyType: 'ProductList',
           },
+          500: {
+            bodyType: 'ErrorResponse',
+          },
         },
       },
     },
