@@ -8,6 +8,7 @@ export default {
       http: {
         method: 'post',
         path: 'products',
+        cors: true,
         bodyType: 'CreateProductData',
         request: {
           schemas: {
