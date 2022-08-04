@@ -3,6 +3,7 @@ import type { AWS } from '@serverless/typescript'
 import getProductsList from '@functions/getProductsList'
 import getProductById from '@functions/getProductById'
 import createProduct from '@functions/createProduct'
+import catalogBatchProcess from '@functions/catalogBatchProcess'
 
 const serverlessConfiguration: AWS = {
   service: 'product-service',
@@ -28,7 +29,7 @@ const serverlessConfiguration: AWS = {
       PG_PORT: '${env:PGPORT}',
     },
   },
-  functions: { getProductsList, getProductById, createProduct },
+  functions: { getProductsList, getProductById, createProduct, catalogBatchProcess },
   package: { individually: true },
   custom: {
     esbuild: {
