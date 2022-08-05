@@ -1,13 +1,14 @@
+import { S3Handler } from 'aws-lambda'
 import { GetObjectRequest, CopyObjectRequest, DeleteObjectRequest } from '@aws-sdk/client-s3'
+import { SendMessageCommand, SendMessageCommandInput } from '@aws-sdk/client-sqs'
 import csv from 'csv-parser'
-import { handleResponse } from '@libs/api-gateway'
-import { bucketName } from 'serverless.constants'
-import { S3Folders, StatusCodes } from 'src/constants'
-import { s3Client } from 'src/s3Client'
-import { ValidatedS3Event } from 'src/types'
 import { Readable } from 'stream'
+import { bucketName } from 'serverless.constants'
+import { S3Folders } from 'src/constants'
+import { s3Client } from 'src/s3Client'
+import { sqsClient } from 'src/sqsClient'
 
-const importFileParser: ValidatedS3Event = async event => {
+const importFileParser: S3Handler = async event => {
   try {
     const parsedCsv = []
     const { key } = event.Records[0].s3.object
@@ -23,7 +24,16 @@ const importFileParser: ValidatedS3Event = async event => {
       parsedCsv.push(chunk)
     }
 
-    parsedCsv.forEach(item => console.log(item))
+    for (const product of parsedCsv) {
+      const commandOptions: SendMessageCommandInput = {
+        QueueUrl: process.env.SQS_URL,
+        MessageBody: JSON.stringify(product),
+        MessageGroupId: 'create-product',
+      }
+      await sqsClient.send(new SendMessageCommand(commandOptions))
+
+      console.log('Product message sent: ', product)
+    }
 
     const objectCopyArgs: CopyObjectRequest = {
       Bucket: bucketName,
@@ -33,10 +43,8 @@ const importFileParser: ValidatedS3Event = async event => {
 
     await s3Client.copyObject(objectCopyArgs)
     await s3Client.deleteObject(objectArgs as DeleteObjectRequest)
-
-    return handleResponse(null, StatusCodes.ACCEPTED)
   } catch (error) {
-    return handleResponse(null, StatusCodes.SERVER_ERROR, error.message)
+    console.log('Error: ', JSON.stringify(error))
   }
 }
 

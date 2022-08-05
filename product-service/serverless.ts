@@ -28,6 +28,13 @@ const serverlessConfiguration: AWS = {
       PG_PASSWORD: '${env:PGPASSWORD}',
       PG_PORT: '${env:PGPORT}',
     },
+    iamRoleStatements: [
+      {
+        Effect: 'Allow',
+        Action: 'sqs:*',
+        Resource: 'arn:aws:sqs:::${env:SQS_NAME}',
+      },
+    ],
   },
   functions: { getProductsList, getProductById, createProduct, catalogBatchProcess },
   package: { individually: true },
@@ -45,7 +52,7 @@ const serverlessConfiguration: AWS = {
     autoswagger: {
       apiType: 'http',
       basePath: '/${self:provider.stage}',
-      generateSwaggerOnDeploy: true,
+      generateSwaggerOnDeploy: false,
       typefiles: ['./src/types/api.types.ts', './src/types/product.types.ts', './src/types/common.types.ts'],
     },
     'serverless-offline': {
