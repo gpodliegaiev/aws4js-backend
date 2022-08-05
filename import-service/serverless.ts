@@ -57,6 +57,17 @@ const serverlessConfiguration: AWS = {
       httpPort: 4000,
     },
   },
+  resources: {
+    Resources: {
+      catalogItemsQueue: {
+        Type: 'AWS::SQS::Queue',
+        Properties: {
+          QueueName: 'catalogItemsQueue.fifo',
+          FifoQueue: true,
+        },
+      },
+    },
+  },
 }
 
 module.exports = serverlessConfiguration
