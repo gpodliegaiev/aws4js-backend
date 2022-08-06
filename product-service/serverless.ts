@@ -27,12 +27,22 @@ const serverlessConfiguration: AWS = {
       PG_DATABASE: '${env:PGDATABASE}',
       PG_PASSWORD: '${env:PGPASSWORD}',
       PG_PORT: '${env:PGPORT}',
+      SNS_ARN: {
+        Ref: 'CreateProductTopic',
+      },
     },
     iamRoleStatements: [
       {
         Effect: 'Allow',
         Action: 'sqs:*',
         Resource: 'arn:aws:sqs:::${env:SQS_NAME}',
+      },
+      {
+        Effect: 'Allow',
+        Action: 'sns:Publish',
+        Resource: {
+          Ref: 'CreateProductTopic',
+        },
       },
     ],
   },
@@ -57,6 +67,42 @@ const serverlessConfiguration: AWS = {
     },
     'serverless-offline': {
       httpPort: 4000,
+    },
+  },
+  resources: {
+    Resources: {
+      CreateProductTopic: {
+        Type: 'AWS::SNS::Topic',
+        Properties: {
+          TopicName: 'createProductTopic',
+        },
+      },
+      CreateProductInStockSubscription: {
+        Type: 'AWS::SNS::Subscription',
+        Properties: {
+          TopicArn: {
+            Ref: 'CreateProductTopic',
+          },
+          Endpoint: '${env:EMAIL_1}',
+          Protocol: 'email',
+          FilterPolicy: {
+            inStock: [{ numeric: ['=', 1] }],
+          },
+        },
+      },
+      CreateProductOutOfStockSubscription: {
+        Type: 'AWS::SNS::Subscription',
+        Properties: {
+          TopicArn: {
+            Ref: 'CreateProductTopic',
+          },
+          Endpoint: '${env:EMAIL_2}',
+          Protocol: 'email',
+          FilterPolicy: {
+            inStock: [{ numeric: ['=', 0] }],
+          },
+        },
+      },
     },
   },
 }
