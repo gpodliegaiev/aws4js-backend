@@ -1,26 +1,22 @@
 import { APIGatewayTokenAuthorizerHandler } from 'aws-lambda'
+import { generatePolicy } from '@libs/generate-policy'
+import { parseBasicToken } from '@libs/parse-basic-token'
 
-const defaultDenyAllPolicy = {
-  principalId: 'user',
-  policyDocument: {
-    Version: '2012-10-17',
-    Statement: [
-      {
-        Action: 'execute-api:Invoke',
-        Effect: 'Deny',
-        Resource: '*',
-      },
-    ],
-  },
-}
-
-const basicAuthorizer: APIGatewayTokenAuthorizerHandler = async (event, ctx, cb) => {
+const basicAuthorizer: APIGatewayTokenAuthorizerHandler = async event => {
   try {
     console.log('Event: ', JSON.stringify(event))
+    const { authorizationToken, methodArn } = event
 
-    return defaultDenyAllPolicy
+    const { login, password } = parseBasicToken(authorizationToken)
+
+    if (process.env[login] === password) {
+      return generatePolicy(methodArn)
+    }
+
+    return generatePolicy()
   } catch (error) {
     console.log('Error: ', JSON.stringify(error))
+    return generatePolicy()
   }
 }
 
