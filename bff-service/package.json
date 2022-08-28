@@ -5,6 +5,9 @@
   "author": "",
   "private": true,
   "license": "UNLICENSED",
+  "engines": {
+    "node": "16.14.2"
+  },
   "scripts": {
     "prebuild": "rimraf dist",
     "build": "nest build",
@@ -18,9 +21,15 @@
     "test:watch": "jest --watch",
     "test:cov": "jest --coverage",
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
-    "test:e2e": "jest --config ./test/jest-e2e.json"
+    "test:e2e": "jest --config ./test/jest-e2e.json",
+    "eb-init": "eb init gpodliegaiev-bff-api --platform node.js --region eu-west-1",
+    "eb-create": "eb create bff-api-dev --single --cname gpodliegaiev-bff-api-develop",
+    "eb-deploy": "eb deploy bff-api-dev",
+    "eb-terminate": "eb terminate",
+    "eb-setenv": "eb setenv `cat .env.prod | sed '/^#/ d' | sed '/^$/ d'`"
   },
   "dependencies": {
+    "@nestjs/axios": "^0.1.0",
     "@nestjs/common": "^9.0.0",
     "@nestjs/config": "^2.2.0",
     "@nestjs/core": "^9.0.0",

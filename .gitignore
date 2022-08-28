@@ -2,6 +2,7 @@
 
 # dependencies
 node_modules
+dist
 /.pnp
 .pnp.js
 
@@ -31,5 +32,11 @@ jspm_packages
 
 .esbuild
 .env
+.env.prod
 
 **.py
+
+# Elastic Beanstalk Files
+**/.elasticbeanstalk/*
+!**/.elasticbeanstalk/*.cfg.yml
+!**/.elasticbeanstalk/*.global.yml
