@@ -15,6 +15,25 @@ const functionConfig: AWSFunction = {
             },
           },
         },
+        cors: true,
+        authorizer: {
+          name: 'basicAuthorizer',
+          arn: {
+            'Fn::Join': [
+              ':',
+              [
+                'arn:aws:lambda',
+                { Ref: 'AWS::Region' },
+                { Ref: 'AWS::AccountId' },
+                'function',
+                '${env:AUTH_FUNC_NAME}',
+              ],
+            ],
+          },
+          type: 'TOKEN',
+          resultTtlInSeconds: 0,
+          identitySource: 'method.request.header.Authorization',
+        },
       },
     },
   ],
